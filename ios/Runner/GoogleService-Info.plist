@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>974384798373-unit0a6cpi41ohee564fbf1lk0kfcjhb.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.974384798373-unit0a6cpi41ohee564fbf1lk0kfcjhb</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBcxy64X1nu-A4IeDA6j9jm0bqaGoKE4UU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>974384798373</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.onlineExamsSystem</string>
+	<key>PROJECT_ID</key>
+	<string>online-exams-ed0e7</string>
+	<key>STORAGE_BUCKET</key>
+	<string>online-exams-ed0e7.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:974384798373:ios:6e05910da28ecf0007cb4c</string>
+</dict>
+</plist>
