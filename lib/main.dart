@@ -5,6 +5,8 @@ import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:online_exams_system/modules/splash/splash.dart';
 
+import 'modules/prof home/prof_home.dart';
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SignUp(),
+      home: ProfessorHome(),
     );
   }
 }
