@@ -1,5 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:online_exams_system/models/department_model.dart';
+import 'package:online_exams_system/student_module/data/model/chapter_model.dart';
+import 'package:online_exams_system/student_module/data/model/course_model.dart';
+import 'package:online_exams_system/student_module/data/model/exam_model.dart';
+import 'package:online_exams_system/student_module/data/model/exam_result.dart';
+import 'package:online_exams_system/student_module/data/model/exam_standard_model.dart';
+import 'package:online_exams_system/student_module/data/model/option_model.dart';
+import 'package:online_exams_system/student_module/data/model/question_model.dart';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,9 +17,12 @@ import 'package:online_exams_system/auth_module/data/model/professor_model.dart'
 import 'package:online_exams_system/auth_module/domain/entity/functional_user.dart';
 import 'package:online_exams_system/auth_module/domain/entity/user.dart';
 import 'package:online_exams_system/models/department_model.dart';
-import 'package:online_exams_system/models/level_model.dart';
+import 'package:online_exams_system/student_module/data/model/level_model.dart';
 
 import '../../../models/firebase_error_model.dart';
+import '../../../shared/app_constants.dart';
+import '../../../student_module/data/model/chapter_model.dart';
+import '../../../student_module/data/model/course_model.dart';
 import '../model/admin_user_model.dart';
 import '../model/student_model.dart';
 
@@ -176,6 +188,69 @@ class AuthRemoteDataSource implements BaseAuthRemoteDataSource {
   @override
   Future<List<DepartmentModel>> getDepartments() async {
     try {
+      DepartmentModel departmentModel =
+      DepartmentModel(id: "asdasdfjkasdfjksdahfg", title: "CS", levels: [
+        LevelModel(id: "dsfksjdflgkshdjfgkljshdfg", title: "Level 1", courses: [
+          CourseModel(
+              id: "sdfasjdkflgsdjfgdsfgdsf",
+              profId: "cAc3T73kBbXGOGlmjg1TmGikxp53",
+              name: "Real Time",
+              courseChapters: [
+                ChapterModel(
+                    id: "asfkdajdfkasdklfgsdgf",
+                    name: "chapter 1",
+                    questions: [
+                      QuestionModel(
+                          id: "zsdfksdhjklgfljksdfg",
+                          type: mCQType,
+                          questionTitle: "what is your name?",
+                          difficulty: 2,
+                          options: [
+                            OptionModel(
+                                id: "dsfasdfgsdkfgsdfg",
+                                content: "Ahmed",
+                                isCorrect: false),
+                            OptionModel(
+                                id: "adsdsfdsfhdfghdfghj",
+                                content: "mohamed",
+                                isCorrect: false),
+                            OptionModel(
+                                id: "dsfasdfgsghdfgjfghjkdkfgsdfg",
+                                content: "gamal",
+                                isCorrect: false),
+                            OptionModel(
+                                id: "dsfasdfgdfhdfghsdkfgsdfg",
+                                content: "ali",
+                                isCorrect: true),
+                          ])
+                    ])
+              ],
+              courseExams: [
+                ExamModel(
+                    startTime: DateTime.parse("2023-06-22 10:15:30.123456"),
+                    endTime: DateTime.parse("2023-06-23 10:15:30.123456"),
+                    timeAllowed: 3,
+                    id: "dfcgsdfghesdfgydfs",
+                    title: "exam on chapter 1",
+                    examStandards: [
+                      ExamStandardModel(
+                          chapterId: "asfkdajdfkasdklfgsdgf",
+                          type: mCQType,
+                          difficulty: 2,
+                          id: "dsfadsfasdfadsfads",
+                          count: 1)
+                    ],
+                    examResults: [
+                      ExamResultModel(
+                          id: "dsfadsfasdfasdfa",
+                          studentId: "VBGPEULWgMexuvt6mfhrVIdyurp2",
+                          studentName: "ahmed mohamed",
+                          score: 0)
+                    ])
+              ])
+        ])
+      ]);
+      await FirebaseFirestore.instance.collection('departments').add(departmentModel.toJson());
       // Query the departments collection in Firestore to retrieve all documents
       QuerySnapshot querySnapshot =
           await FirebaseFirestore.instance.collection('departments').get();
@@ -201,24 +276,27 @@ class AuthRemoteDataSource implements BaseAuthRemoteDataSource {
   @override
   Future<List<LevelModel>> getLevels() async {
     try {
-      // Query the Levels collection in Firestore to retrieve all documents
-      QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection('levels').get();
+      // Query the departments collection in Firestore to retrieve all departments
+      QuerySnapshot departmentsSnapshot =
+      await FirebaseFirestore.instance.collection('departments').get();
 
-      // Convert the documents to LevelModel objects
-      List<LevelModel> departments = querySnapshot.docs
-          .map((doc) =>
-          LevelModel.fromJson(doc.data() as Map<String, dynamic>))
-          .toList();
+      // Check that the departments collection contains at least one document
+      if (departmentsSnapshot.docs.isEmpty) {
+        return [];
+      }
 
-      return departments;
-    } on FirebaseAuthException catch (e) {
-      throw CustomFirebaseException.fromFirebaseAuthException(e);
+      // Retrieve the levels field from the first document in the departments collection
+      List<dynamic> levelsJson = departmentsSnapshot.docs[0].get('levels');
+
+      // Map over the levelsJson list to create a list of LevelModel objects
+      List<LevelModel> levels =
+      levelsJson.map((level) => LevelModel.fromJson(level)).toList();
+
+      // Return the list of LevelModel objects
+      return levels;
     } on FirebaseException catch (e) {
+      // If there's an error, throw a custom exception
       throw CustomFirebaseException.fromFirebaseFirestoreException(e);
-    } catch (e) {
-      log(e.toString());
-      throw CustomFirebaseException("", 'An unexpected error occurred');
     }
   }
 }

@@ -1,8 +1,8 @@
-import '../../../models/course model.dart';
+import '../../../student_module/data/model/course_model.dart';
 import 'user.dart';
 
 abstract class FunctionalUser extends LocalUser {
-  List<Course> courses;
+  List<CourseModel> courses;
 
   FunctionalUser(
       {required this.courses,

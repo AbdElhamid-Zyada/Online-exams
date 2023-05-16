@@ -1,14 +1,18 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:online_exams_system/auth_module/data/model/professor_model.dart';
 import 'package:online_exams_system/auth_module/data/model/student_model.dart';
 import 'package:online_exams_system/auth_module/data/repo/auth_repo.dart';
+import 'package:online_exams_system/auth_module/domain/entity/user.dart';
 import 'package:online_exams_system/auth_module/domain/usecase/get_departments_use_case.dart';
 import 'package:online_exams_system/auth_module/domain/usecase/get_levels_use_case.dart';
 import 'package:online_exams_system/auth_module/domain/usecase/login_use_case.dart';
 import 'package:online_exams_system/auth_module/domain/usecase/student_register_use_case.dart';
 import 'package:online_exams_system/models/department_model.dart';
-import 'package:online_exams_system/models/level_model.dart';
+import 'package:online_exams_system/student_module/data/model/level_model.dart';
 import 'package:online_exams_system/shared/components/custom_snack_bar.dart';
 
 import '../../data/model/login_model.dart';
@@ -17,16 +21,6 @@ import '../../domain/usecase/prof_register_use_case.dart';
 
 class AuthController extends GetxController {
   bool isStudent = true;
-
-  // levelChanged(newLevel) {
-  //   selectedLevel = newLevel;
-  //   update();
-  // }
-  //
-  // departmentChanged(newDepartment) {
-  //   selectedDepartment = newDepartment;
-  //   update();
-  // }
 
   var loginEmailController = TextEditingController();
   var loginPasswordController = TextEditingController();
@@ -38,8 +32,7 @@ class AuthController extends GetxController {
               .execute(StudentModel(
                   courses: [],
                   id: "",
-                  name:
-                      userNameController.text,
+                  name: userNameController.text,
                   email: emailController.text,
                   password: passwordController.text,
                   departmentModel: _selectedDepartment,
@@ -89,6 +82,8 @@ class AuthController extends GetxController {
     update();
   }
 
+  late LocalUser currentUser;
+
   logIn() async {
     final result = await LogInUseCase(AuthRepo(AuthRemoteDataSource())).execute(
         LoginModel(
@@ -96,27 +91,31 @@ class AuthController extends GetxController {
             password: loginPasswordController.text));
     result.fold(
         (l) => customSnackBar(
-            title: l.code, message: l.message, successful: false),
-        (r) => customSnackBar(
-            title: "Done", message: "Welcome ${r.name}", successful: true));
+            title: l.code, message: l.message, successful: false), (r) {
+      if (r is ProfessorModel) {
+        currentUser = r;
+        Get.offAllNamed('/prof_home');
+      }
+    });
   }
-
-
 
   getLevels() async {
-    final result = await GetLevelsUseCase(AuthRepo(AuthRemoteDataSource())).execute();
+    final result =
+        await GetLevelsUseCase(AuthRepo(AuthRemoteDataSource())).execute();
     result.fold(
-            (l) => customSnackBar(
+        (l) => customSnackBar(
             title: l.code, message: l.message, successful: false),
-            (r) => levels=r);
+        (r) => levels = r);
     update();
   }
+
   getDepartments() async {
-    final result = await GetDepartmentsUseCase(AuthRepo(AuthRemoteDataSource())).execute();
+    final result =
+        await GetDepartmentsUseCase(AuthRepo(AuthRemoteDataSource())).execute();
     result.fold(
-            (l) => customSnackBar(
+        (l) => customSnackBar(
             title: l.code, message: l.message, successful: false),
-            (r) => departments=r);
+        (r) => departments = r);
     update();
   }
 
