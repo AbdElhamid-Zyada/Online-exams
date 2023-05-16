@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:online_exams_system/modules/signup/signup.dart';
+import 'package:online_exams_system/auth_module/presentation/view/signup.dart';
+
+import '../style/themes.dart';
 
 Color lightGrey = const Color(0xffC1C1C1);
 Color lightYellow = const Color(0xffFFBE55);
@@ -37,7 +39,7 @@ PreferredSizeWidget buildAppBar({
           ? IconButton(
               icon: Icon(
                 Icons.arrow_back_ios_new_rounded,
-                color: grey,
+                color: Themes.grey,
               ),
               onPressed: backArrowPressed,
             )

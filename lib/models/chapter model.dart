@@ -1,23 +1,39 @@
+import 'package:online_exams_system/models/question%20model.dart';
+import 'package:online_exams_system/models/standred.dart';
+import 'package:online_exams_system/shared/app_constants.dart';
+
 class Chapter {
-  String? id;
-  String? name;
-  List<dynamic>? mcqQuestions;
-  List<dynamic>? tfQuestions;
+  String id;
+  String name;
+  List<Question> mcqQuestions;
+  List<Question> tfQuestions;
 
   Chapter({
-    this.id,
-    this.name,
-    this.mcqQuestions,
-    this.tfQuestions,
+    required this.id,
+    required this.name,
+    required this.mcqQuestions,
+    required this.tfQuestions,
   });
 
-  factory Chapter.fromFirebase(map) {
-    print("in creating chapter iz $map");
-    return Chapter(
-      id: map['id'],
-      name: map['name'],
-      mcqQuestions: map['mcq questions'],
-      tfQuestions: map['tf questions'],
-    );
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'questions': (mcqQuestions + tfQuestions)
+          .map((question) => question.toJson())
+          .toList(),
+    };
   }
+
+  Chapter.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        mcqQuestions = List<Question>.from(json['questions']
+                .map((questionJson) => Question.fromJson(questionJson)))
+            .where((element) => element.type == AppConstants.mCQType)
+            .toList(),
+        tfQuestions = List<Question>.from(json['questions']
+                .map((questionJson) => Question.fromJson(questionJson)))
+            .where((element) => element.type == AppConstants.tFQType)
+            .toList();
 }
