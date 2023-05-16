@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:online_exams_system/auth_module/presentation/view/signup.dart';
+import 'package:online_exams_system/prof_module/presentation/controller/prof_controller.dart';
 import 'package:online_exams_system/shared/style/themes.dart';
 import 'package:sizer/sizer.dart';
 import 'auth_module/presentation/controller/auth_controller.dart';
@@ -23,6 +24,8 @@ Future main() async {
 
 
 class MyApp extends StatelessWidget {
+
+
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -51,6 +54,13 @@ class MyApp extends StatelessWidget {
 
           }),
             page: () => SignInView(),
+          ),   GetPage(
+            name: '/prof_home',binding: BindingsBuilder(() {
+            Get.put(ProfController(),permanent: true);
+
+
+          }),
+            page: () => ProfessorHomeView(),
           ),
 
         ],

@@ -1,7 +1,7 @@
-import 'package:online_exams_system/models/course%20model.dart';
-import 'package:online_exams_system/models/level_model.dart';
+import 'package:online_exams_system/student_module/data/model/level_model.dart';
 
 import '../../../models/department_model.dart';
+import '../../../student_module/data/model/course_model.dart';
 import '../../domain/entity/functional_user.dart';
 
 class StudentModel extends FunctionalUser {
@@ -20,7 +20,7 @@ class StudentModel extends FunctionalUser {
   factory StudentModel.fromJson(Map<String, dynamic> json) {
     return StudentModel(
       courses:
-          List.from(json['courses']).map((e) => Course.fromJson(e)).toList(),
+          List.from(json['courses']).map((e) => CourseModel.fromJSON(e)).toList(),
       id: '',
       name: json['name'],
       email: json['email'],

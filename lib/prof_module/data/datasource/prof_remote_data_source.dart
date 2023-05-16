@@ -1,19 +1,19 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:online_exams_system/models/course%20model.dart';
 
 import '../../../models/firebase_error_model.dart';
-import '../../../models/level_model.dart';
+import '../../../student_module/data/model/course_model.dart';
+import '../../../student_module/data/model/level_model.dart';
 
 abstract class BaseProfRemoteDataSource{
-  Future<List<Course>>getProfCourses(String professorId);
+  Future<List<CourseModel>>getProfCourses(String professorId);
 }
 class ProfRemoteDataSource implements BaseProfRemoteDataSource{
 
   @override
-  Future<List<Course>> getProfCourses(String professorId) async {
-    List<Course> professorCourses = [];
+  Future<List<CourseModel>> getProfCourses(String professorId) async {
+    List<CourseModel> professorCourses = [];
 
     try {
       // Query the departments collection in Firestore to retrieve all departments
@@ -28,7 +28,7 @@ class ProfRemoteDataSource implements BaseProfRemoteDataSource{
             .toList();
 
         for (LevelModel level in levels) {
-          List<Course> courses =
+          List<CourseModel> courses =
           (await FirebaseFirestore.instance
               .collection('departments')
               .doc(departmentDoc.id)
@@ -38,7 +38,7 @@ class ProfRemoteDataSource implements BaseProfRemoteDataSource{
               .where('professor_id', isEqualTo: professorId)
               .get())
               .docs
-              .map((doc) => Course.fromJson(doc.data()))
+              .map((doc) => CourseModel.fromJSON(doc.data()))
               .toList();
 
           professorCourses.addAll(courses);

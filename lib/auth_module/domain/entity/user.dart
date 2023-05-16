@@ -1,4 +1,3 @@
-import '../../../models/course model.dart';
 
 abstract class LocalUser {
   String id;

@@ -7,7 +7,7 @@ import 'package:online_exams_system/auth_module/data/remote_data_source/remote_d
 import 'package:online_exams_system/auth_module/domain/entity/functional_user.dart';
 import 'package:online_exams_system/auth_module/domain/repo/base_auth_repo.dart';
 import 'package:online_exams_system/models/department_model.dart';
-import 'package:online_exams_system/models/level_model.dart';
+import 'package:online_exams_system/student_module/data/model/level_model.dart';
 
 import '../../../models/firebase_error_model.dart';
 import '../../domain/entity/user.dart';

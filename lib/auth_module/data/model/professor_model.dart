@@ -1,4 +1,4 @@
-import '../../../models/course model.dart';
+import '../../../student_module/data/model/course_model.dart';
 import '../../domain/entity/functional_user.dart';
 
 class ProfessorModel extends FunctionalUser {
@@ -13,7 +13,7 @@ class ProfessorModel extends FunctionalUser {
 factory ProfessorModel.fromJson(Map<String, dynamic> json) {
 return ProfessorModel(
 courses:
-List.from(json['courses']).map((e) => Course.fromJson(e)).toList(),
+List.from(json['courses']).map((e) => CourseModel.fromJSON(e)).toList(),
 id: '',
 name: json['name'],
 email: json['email'],
