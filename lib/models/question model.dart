@@ -1,31 +1,44 @@
 import 'dart:ffi';
 
+import 'chapter model.dart';
+
 class Question {
-  String? id;
-  String? type;
-  String? question;
-  Char? difficulty;
-  String? correctAnswer;
-  List<String>? wrongAnswers;
+  String id;
+  String type;
+  String questionTitle;
+  Char difficulty;
+  String correctAnswer;
+  String? studentAnswer;
+  List<String> answers;
 
   Question({
-    this.id,
-    this.type,
-    this.question,
-    this.difficulty,
-    this.correctAnswer,
-    this.wrongAnswers,
+  required this.id,
+  required this.type,
+   this.studentAnswer,
+  required this.questionTitle,
+  required this.difficulty,
+  required this.correctAnswer,
+  required this.answers,
   });
 
-  factory Question.fromFirebase(map) {
-    print("in creating question iz $map");
-    return Question(
-      id: map['id'],
-      type: map['type'],
-      question: map['question'],
-      correctAnswer: map['correct answer'],
-      wrongAnswers: map['wrong answers'],
-      difficulty: map['difficulty'],
-    );
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'type': type,
+      'questionTitle': questionTitle,
+      'difficulty': difficulty,
+      'correctAnswer': correctAnswer,
+      'studentAnswer': studentAnswer,
+      'answers': answers,
+    };
   }
+
+  Question.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        type = json['type'],
+        questionTitle = json['questionTitle'],
+        difficulty = json['difficulty'],
+        correctAnswer = json['correctAnswer'],
+        studentAnswer = json['studentAnswer'],
+        answers = List<String>.from(json['answers']);
 }

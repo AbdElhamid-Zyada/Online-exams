@@ -1,18 +1,20 @@
+import 'chapter model.dart';
+import 'exam model.dart';
+
 class Course {
-  String? id;
-  String? name;
-  List<dynamic>? courseChapters;
-  List<dynamic>? courseExams;
+  String id;
+  String name;
+  List<Chapter> courseChapters;
+  List<Exam> courseExams;
 
   Course({
-    this.id,
-    this.name,
-    this.courseChapters,
-    this.courseExams,
+    required this.id,
+    required this.name,
+    required this.courseChapters,
+    required this.courseExams,
   });
 
-  factory Course.fromFirebase(map) {
-    print("in creating course iz $map");
+  factory Course.fromJson(map) {
     return Course(
       id: map['id'],
       name: map['name'],
